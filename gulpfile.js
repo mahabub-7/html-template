@@ -9,7 +9,6 @@ let
   gcmq = require('gulp-group-css-media-queries'),
   cleanCSS = require('gulp-clean-css'),
   htmlTemplate = require('gulp-template-html'),
-  htmlComponent = require('gulp-html-component'),
   concat = require('gulp-concat'),
   uglify = require('gulp-uglify'),
   babel = require('gulp-babel'),
@@ -49,12 +48,12 @@ gulp.task('serve', function() {
 
 
 // Templating ---------------------------------------------------------------------------
+
 gulp.task('html-dev', function() {
   return gulp.src([
     './src/html/pages/**/*.html'
   ])
   .pipe(plumber())
-  // .pipe(htmlComponent({ path: './src/html', encoding: 'utf8' }))
   .pipe(htmlTemplate('./src/html/templates/default.html'))
   .pipe(gulp.dest('.dev/'))
 });
@@ -118,12 +117,67 @@ gulp.task('cleaning-build', function () {
 
 // create new build-folder
 gulp.task('create-build-folder', function() {
-  return gulp.src('./').pipe(gulp.dest('dist'))
+  return gulp.src('./src/*').pipe(gulp.dest('dist/'))
 });
 
+// html build
+gulp.task('html-prod', function() {
+  return gulp.src([
+    './src/html/pages/**/*.html'
+  ])
+  .pipe(plumber())
+  .pipe(htmlTemplate('./src/html/templates/default.html'))
+  .pipe(gulp.dest('dist/'))
+});
 
+// styles build
+gulp.task('styles-prod', function() {
+  return gulp.src([
+    './src/scss/app.scss'
+  ])
+  .pipe(plumber())
+  .pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
+  .pipe(concatCss('styles.min.css'))
+  .pipe(autoprefixer())
+  .pipe(gcmq())
+  .pipe(cleanCSS())
+  .pipe(gulp.dest('dist/css'))
+});
 
+// js build
+gulp.task('js-prod', function() {
+  return gulp.src([
+    './src/js/app.js',
+  ])
+  .pipe(plumber())
+  .pipe(babel())
+  .pipe(concat('script.min.js'))
+  .pipe(uglify())
+  .pipe(gulp.dest('dist/js'))
+});
 
+// fonts build
+gulp.task('fonts-prod', function() {
+  return gulp.src([
+    './src/fonts/**/*.*'
+  ])
+  .pipe(gulp.dest('dist/fonts'))
+});
+
+// images for build
+gulp.task('images-prod', function() {
+  return gulp.src([
+    './src/img/**/*.*'
+  ])
+  .pipe(gulp.dest('dist/img'))
+});
+
+// cleaning unnecessary things
+gulp.task('cleaning-unnecessary', function () {
+  return del([
+    'dist/html', 'dist/scss'
+  ])
+});
 
 
 
@@ -144,4 +198,16 @@ gulp.task('dev', gulp.series(
   'fonts-dev',
   'images-dev',
   'serve'
+));
+
+
+gulp.task('build', gulp.series(
+  'cleaning-build',
+  'create-build-folder',
+  'html-prod',
+  'styles-prod',
+  'js-prod',
+  'fonts-prod',
+  'images-prod',
+  'cleaning-unnecessary'
 ));

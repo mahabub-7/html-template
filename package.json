@@ -4,7 +4,8 @@
   "description": "HTML-Template",
   "main": "index.js",
   "scripts": {
-    "dev": "gulp dev"
+    "dev": "gulp dev",
+    "build": "gulp build"
   },
   "repository": {
     "type": "git",
@@ -23,7 +24,6 @@
     "gulp-concat": "^2.6.1",
     "gulp-concat-css": "^3.1.0",
     "gulp-group-css-media-queries": "^1.2.2",
-    "gulp-html-component": "^1.0.5",
     "gulp-plumber": "^1.2.1",
     "gulp-replace": "^1.1.4",
     "gulp-sass": "^5.1.0",

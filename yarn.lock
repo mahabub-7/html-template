@@ -2693,11 +2693,6 @@ gulp-group-css-media-queries@^1.2.2:
     plugin-error "^1.0.1"
     through2 "^2.0.3"
 
-gulp-html-component@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/gulp-html-component/-/gulp-html-component-1.0.5.tgz#890719b6b050ef0caf5bfd8ab4fe3674f63f3aae"
-  integrity sha512-11NjYR0O8xGj8L7BjY/zqQouxAB3L2DIsNtoO0VHAI7tgnigvwm0MCbfzWo8ViieuPbou3XA0hnHRqRz72hjEA==
-
 gulp-plumber@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/gulp-plumber/-/gulp-plumber-1.2.1.tgz#d38700755a300b9d372318e4ffb5ff7ced0b2c84"
