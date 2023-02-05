@@ -8,7 +8,8 @@ let
   concatCss = require('gulp-concat-css'),
   gcmq = require('gulp-group-css-media-queries'),
   cleanCSS = require('gulp-clean-css'),
-  pug = require('gulp-pug'),
+  htmlTemplate = require('gulp-template-html'),
+  htmlComponent = require('gulp-html-component'),
   concat = require('gulp-concat'),
   uglify = require('gulp-uglify'),
   babel = require('gulp-babel'),
@@ -40,7 +41,7 @@ gulp.task('serve', function() {
   });
 
   // watchers
-  gulp.watch('./src/html/**/*.pug', gulp.series('html-dev')).on('change', sync.reload);
+  gulp.watch('./src/html/**/*.html', gulp.series('html-dev')).on('change', sync.reload);
   gulp.watch('./src/js/**/*.js', gulp.series('js-dev')).on('change', sync.reload);
   gulp.watch('./src/scss/**/*.scss', gulp.series('styles-dev')).on('change', sync.reload);
   gulp.watch('./src/img/**/*.*', gulp.series('images-dev')).on('change', sync.reload);
@@ -50,11 +51,11 @@ gulp.task('serve', function() {
 // Templating ---------------------------------------------------------------------------
 gulp.task('html-dev', function() {
   return gulp.src([
-    './src/html/index.pug',
-    './src/html/pages/*.pug'
+    './src/html/pages/**/*.html'
   ])
   .pipe(plumber())
-  .pipe(pug({}))
+  // .pipe(htmlComponent({ path: './src/html', encoding: 'utf8' }))
+  .pipe(htmlTemplate('./src/html/templates/default.html'))
   .pipe(gulp.dest('.dev/'))
 });
 
